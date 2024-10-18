@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-am%+j_m=ecmv6(1_(f+w^z+krrmfw^x34webk#jal)t8z8%8dt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend.onrender.com']
+ALLOWED_HOSTS = ['*']
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
