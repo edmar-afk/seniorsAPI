@@ -75,7 +75,7 @@ class SendNotificationAPIView(views.APIView):
         
         # Default message to be sent
         default_message = f"Maayong adlaw Mr/Mrs. {senior.first_name} nga nagpuyo sa {senior.last_name}. Ang DSWD nakahimo sa pagpagawas sa imong pensyon, palihug tan-awa sila sa opisina ug apila ug dala ang QR Code."
-        api_key = 'ff415813a5f0393ef6e857f0bfd84a4c34fbb5db'  # Replace with your actual API key
+        api_key = 'bbb93c7696179a8d2f0217e72a5d90680b3b6111'  # Replace with your actual API key
 
         phone_number = senior.username.strip()  # Assuming username holds the phone number
 
