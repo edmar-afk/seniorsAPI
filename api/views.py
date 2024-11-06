@@ -28,6 +28,8 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 import requests
 import time
+from datetime import datetime
+from django.utils.dateformat import DateFormat
 
 User = get_user_model()
 
@@ -67,14 +69,24 @@ class UserProfileView(APIView):
 
 
 class SendNotificationAPIView(views.APIView):
-    permission_classes = [AllowAny]  # Ensure only authenticated users can access
+    permission_classes = [AllowAny]
 
     def post(self, request, senior_id):
         # Get the senior based on the ID provided in the URL
         senior = get_object_or_404(User, id=senior_id)
-        
+
+        # Retrieve the schedule for the current month (or modify the query as needed)
+        schedule = Schedule.objects.filter(month__month=datetime.now().month).first()
+
+        # Format the month if a schedule exists in "6 Nov 2024" format
+        month_formatted = DateFormat(schedule.month).format('j M Y') if schedule else "a specific date"
+
         # Default message to be sent
-        default_message = f"Maayong adlaw Mr/Mrs. {senior.first_name} nga nagpuyo sa {senior.last_name}. Ang DSWD nakahimo sa pagpagawas sa imong pensyon, palihug tan-awa sila sa opisina ug apila ug dala ang QR Code."
+        default_message = (
+            f"Maayong adlaw Mr/Mrs. {senior.first_name} nga nagpuyo sa {senior.last_name}. "
+            f"Ang DSWD nakahimo sa pagpagawas sa imong pensyon para sa {month_formatted}. "
+            "Palihug tan-awa sila sa opisina ug apila ug dala ang QR Code."
+        )
         api_key = 'bbb93c7696179a8d2f0217e72a5d90680b3b6111'  # Replace with your actual API key
 
         phone_number = senior.username.strip()  # Assuming username holds the phone number
