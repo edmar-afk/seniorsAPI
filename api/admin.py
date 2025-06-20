@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import Profile, Schedule, Pension, SubmissionStatus
-# Register your models here.
+from .models import Pwd, Infrastructure, SeniorCitizen, HouseholdMember, Households, Feedback
 
-
-admin.site.register(Profile)
-admin.site.register(Schedule)
-admin.site.register(Pension)
-admin.site.register(SubmissionStatus)
+admin.site.register(Pwd)
+admin.site.register(Infrastructure)
+admin.site.register(SeniorCitizen)
+admin.site.register(HouseholdMember)
+admin.site.register(Households)
+admin.site.register(Feedback)

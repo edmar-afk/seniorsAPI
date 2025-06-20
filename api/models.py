@@ -1,41 +1,55 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
-
-
 # Create your models here.
 
+class Pwd(models.Model):
+    people = models.TextField()
+    age = models.IntegerField()
+    gender = models.TextField()
+    location = models.TextField()
+    
 
-class Profile(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    mobile_num = models.TextField()
-    address = models.TextField()
-    dob = models.DateField(blank=True, null=True)
-    profile_pic = models.FileField(
-        upload_to='profiles/',
+class Infrastructure(models.Model):
+    name = models.TextField()
+    type = models.TextField()
+    description = models.TextField()
+    image = models.FileField(
+        upload_to='infrastructure/',
         validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])], null=True, blank=True
     )
-    def __str__(self):
-        return self.user.first_name
-
-class Pension(models.Model):
-    seniors = models.ForeignKey(User, on_delete=models.CASCADE)
-    requirement = models.FileField(upload_to='pensions/', validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])],)
-    requirement1 = models.FileField(upload_to='ids/', validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])],)
-    requirement2 = models.FileField(upload_to='authorization-letters/', validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])],)
-    date_submitted = models.DateTimeField(auto_now_add=True)
-    status = models.TextField(default='Not Eligible')
-    qr = models.FileField(upload_to='qrs/', validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg'])], blank=True)
-    notification_status = models.TextField()
+    location = models.TextField()
     
-class Schedule(models.Model):
-    description = models.TextField()
-    month = models.DateField()
-    startDatetime = models.TimeField()
-    endDatetime = models.TimeField()
+class SeniorCitizen(models.Model):
+    people = models.TextField()
+    age = models.IntegerField()
+    gender = models.TextField()
+    location = models.TextField()
+    
 
-class SubmissionStatus(models.Model):
-    is_on = models.BooleanField()
+class Households(models.Model):
+    family_name = models.CharField(max_length=100)
+    location = models.TextField()
+    def __str__(self):
+        return self.family_name
 
-class Notification(models.Model):
-    seniors = models.ForeignKey(User, on_delete=models.CASCADE)
+class HouseholdMember(models.Model):
+    ROLE_CHOICES = [
+        ('Father', 'Father'),
+        ('Mother', 'Mother'),
+        ('Son', 'Son'),
+        ('Daughter', 'Daughter'),
+    ]
+
+    household = models.ForeignKey(Households, related_name='members', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+
+    def __str__(self):
+        return self.name
+
+
+class Feedback(models.Model):
+    name = models.TextField()
+    feedback = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
